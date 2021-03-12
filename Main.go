@@ -16,7 +16,7 @@ import (
 )
 
 func setupLogging() {
-	logfile, err0 := os.OpenFile("log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	logfile, err0 := os.OpenFile("log.txt", os.O_CREATE|os.O_WRONLY, 0666)
 	if err0 != nil {
 		log.Fatal(err0)
 	}
@@ -82,7 +82,7 @@ func main() {
 	client := getTwitterClient(loadSecurityConfig())
 
 	log.Debug("getting filterstream")
-	filterStreamParams := &twitter.StreamFilterParams{Language: []string{"de"}, Track: []string{"ich","du","er","sie","es","Ich","Der","der","das","Das"}}
+	filterStreamParams := &twitter.StreamFilterParams{Language: []string{"de"}, Track: []string{"ich", "du", "er", "sie", "es", "Ich", "Der", "der", "das", "Das"}}
 	stream, _ := client.Streams.Filter(filterStreamParams)
 	log.Debug("Received filter stream")
 
@@ -133,7 +133,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleClient(ws *websocket.Conn) bool{
+func handleClient(ws *websocket.Conn) bool {
 	_, response, err := ws.ReadMessage()
 	log.Debug("got response: ", string(response))
 	if err != nil || string(response) != "ok" {
