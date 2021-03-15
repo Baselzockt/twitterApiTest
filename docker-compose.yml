@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  twitterApi:
+    image: baselzockt/twitterapi
+    restart: on-failure
+    networks:
+     - activemqgo
+
+
+networks:
+  activemqgo:
+    external:
+      name: activemqgo
