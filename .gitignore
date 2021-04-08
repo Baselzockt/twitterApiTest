@@ -1,4 +1,2 @@
-conf.json
-log.txt
-.idea/*
-.idea
+/conf.json
+/log.txt
