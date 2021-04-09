@@ -9,19 +9,15 @@ import (
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
 	log "github.com/sirupsen/logrus"
+	"os"
 )
 
 var twitterClient *twitter.Client = nil
 
-func getTwitterClient(securityConfig *SecurityConfig) *twitter.Client {
-
-	if securityConfig.AccessSecret == "" {
-		log.Fatal("Config is empty")
-	}
-
+func getTwitterClient() *twitter.Client {
 	log.Debug("Connecting to twitter api")
-	config := oauth1.NewConfig(securityConfig.ApiKey, securityConfig.ApiSecret)
-	token := oauth1.NewToken(securityConfig.AccessToken, securityConfig.AccessSecret)
+	config := oauth1.NewConfig(os.Getenv("APIKEY"), os.Getenv("APISECRET"))
+	token := oauth1.NewToken(os.Getenv("ACCESSKEY"), os.Getenv("ACCESSSECRET"))
 
 	httpClient := config.Client(oauth1.NoContext, token)
 	client := twitter.NewClient(httpClient)
@@ -31,7 +27,7 @@ func getTwitterClient(securityConfig *SecurityConfig) *twitter.Client {
 
 func CreateHandlerForFilterStream(filterParams *twitter.StreamFilterParams) {
 	if twitterClient == nil {
-		twitterClient = getTwitterClient(LoadSecurityConfig())
+		twitterClient = getTwitterClient()
 	}
 	stream, err := twitterClient.Streams.Filter(filterParams)
 
@@ -42,7 +38,7 @@ func CreateHandlerForFilterStream(filterParams *twitter.StreamFilterParams) {
 
 	log.Debug("Create and connect activeMQ client")
 	activeMqClient := impl.NewStompClient()
-	err = activeMqClient.Connect("activemq:61613")
+	err = activeMqClient.Connect(os.Getenv("ENDPOINT"))
 	if err != nil {
 		log.Error("Could not create create activemq client")
 		log.Fatal(err)

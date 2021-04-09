@@ -5,7 +5,9 @@ services:
     image: baselzockt/twitterapi
     restart: on-failure
     networks:
-     - activemqgo
+      - activemqgo
+    environment:
+      - "ENDPOINT=activemq:61613"
 
 
 networks:

@@ -20,7 +20,5 @@ WORKDIR /dist
 # Copy binary from build to main folder
 RUN cp /build/main .
 
-COPY conf.json .
-
 # Command to run when starting the container
 CMD ["/dist/main"]
