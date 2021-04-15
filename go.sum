@@ -1,7 +1,5 @@
-github.com/Baselzockt/GoMQ v0.0.15-alpha h1:ezm4hbBbnT8maCkPtKUuG6q10Ayx7In4kq1otdcVzB8=
-github.com/Baselzockt/GoMQ v0.0.15-alpha/go.mod h1:kUgl9BM/4kzfa7o6vuke4mrJwPT3pD7zMYU2Vb7orPg=
-github.com/Baselzockt/GoMQ v0.0.16-alpha h1:I3acjvbTCVLjWrxg9+izpF2F+atwPTcp6ht2cPeBgos=
-github.com/Baselzockt/GoMQ v0.0.16-alpha/go.mod h1:kUgl9BM/4kzfa7o6vuke4mrJwPT3pD7zMYU2Vb7orPg=
+github.com/Baselzockt/GoMQ v0.0.19-alpha h1:9DhVRdepqRntqUi68xdKISQKzhmeVi3EdrkjRBTrg2E=
+github.com/Baselzockt/GoMQ v0.0.19-alpha/go.mod h1:kUgl9BM/4kzfa7o6vuke4mrJwPT3pD7zMYU2Vb7orPg=
 github.com/cenkalti/backoff v2.1.1+incompatible h1:tKJnvO2kl0zmb/jA5UKAt4VoEVw1qxKWjE/Bpp46npY=
 github.com/cenkalti/backoff v2.1.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QHaoyV4aDUVVkXQJJJ3NXXM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -17,8 +15,6 @@ github.com/go-stomp/stomp v2.1.2+incompatible h1:yCaLuMAUY4Z0j1zAiT2sVAhJZyzSRjn
 github.com/go-stomp/stomp v2.1.2+incompatible/go.mod h1:VqCtqNZv1226A1/79yh+rMiFUcfY3R109np+7ke4n0c=
 github.com/google/go-querystring v1.0.0 h1:Xkwi/a1rcvNg1PPYe5vI8GbeBY/jrVuDX5ASuANWTrk=
 github.com/google/go-querystring v1.0.0/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
-github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
-github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/kr/pretty v0.2.1 h1:Fmg33tUaq4/8ym9TJN1x7sLJnHVwhP33CNkpYV/7rwI=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=

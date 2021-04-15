@@ -7,49 +7,21 @@ import (
 	"github.com/Baselzockt/GoMQ/client/impl"
 	"github.com/Baselzockt/GoMQ/content"
 	"github.com/dghubble/go-twitter/twitter"
-	"github.com/dghubble/oauth1"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
-var twitterClient *twitter.Client = nil
-
-func getTwitterClient() *twitter.Client {
-	log.Debug("Connecting to twitter api")
-	config := oauth1.NewConfig(os.Getenv("APIKEY"), os.Getenv("APISECRET"))
-	token := oauth1.NewToken(os.Getenv("ACCESSKEY"), os.Getenv("ACCESSSECRET"))
-
-	httpClient := config.Client(oauth1.NoContext, token)
-	client := twitter.NewClient(httpClient)
-	log.Debug("connected")
-	return client
-}
-
-func CreateHandlerForFilterStream(filterParams *twitter.StreamFilterParams) {
-	if twitterClient == nil {
-		twitterClient = getTwitterClient()
-	}
-	stream, err := twitterClient.Streams.Filter(filterParams)
-
+func CreateHandlerForFilterStream(twitterClient twitterClientInterface, activeMqClient activeMq.Client, filterParams *twitter.StreamFilterParams) error {
+	stream, err := twitterClient.CreateFilterStream(filterParams)
 	if err != nil {
-		log.Error("Could not create Filter stream")
-		log.Fatal(err)
+		log.Error("Could not create filter stream")
+		return err
 	}
-
-	log.Debug("Create and connect activeMQ client")
-	activeMqClient := impl.NewStompClient()
-	err = activeMqClient.Connect(os.Getenv("ENDPOINT"))
-	if err != nil {
-		log.Error("Could not create create activemq client")
-		log.Fatal(err)
-	}
-
-	log.Debug("Successfully created client")
 	log.Debug("Setting up twitter stream handler")
-	setupTweetHandling(stream, activeMqClient)
+	err = setupTweetHandling(stream, activeMqClient)
+	return err
 }
 
-func setupTweetHandling(stream *twitter.Stream, client activeMq.Client) {
+func setupTweetHandling(stream *chan interface{}, client activeMq.Client) error {
 	demux := twitter.NewSwitchDemux()
 	demux.Tweet = func(tweet *twitter.Tweet) {
 		buffer := new(bytes.Buffer)
@@ -61,25 +33,32 @@ func setupTweetHandling(stream *twitter.Stream, client activeMq.Client) {
 			log.Error(err)
 			return
 		}
-
 		sendMessageToActiveMq(buffer.Bytes(), client)
 	}
-	demux.DM = func(dm *twitter.DirectMessage) {
-		sendMessageToActiveMq([]byte(dm.Text), client)
-	}
+
 	log.Debug("Starting handler")
-	demux.HandleChan(stream.Messages)
+	demux.HandleChan(*stream)
+	return nil
 }
 
 func sendMessageToActiveMq(body []byte, client activeMq.Client) {
 	log.Debug("sending message to activeMQ")
+
 	err := client.SendMessageToQueue("Twitter", content.TEXT, body)
 	if err != nil {
 		log.Error(err)
 		log.Debug("Error while sending trying to Reconnect")
-		client = impl.NewStompClient()
-		err = client.Connect("activemq:61613")
+
+		switch client.(type) {
+		case *impl.MockClient:
+			err = client.Connect("localhost")
+		default:
+			client = impl.NewStompClient()
+			err = client.Connect("activemq:61613")
+		}
+
 		if err != nil {
+			log.Error("Could not reconnect")
 			log.Fatal(err)
 		}
 	}
