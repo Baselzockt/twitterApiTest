@@ -2,6 +2,6 @@ package twitterapi
 
 import "github.com/dghubble/go-twitter/twitter"
 
-type twitterClientInterface interface {
+type TwitterClient interface {
 	CreateFilterStream(*twitter.StreamFilterParams) (*chan interface{}, error)
 }

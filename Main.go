@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Baselzockt/GoMQ/client"
 	"github.com/Baselzockt/GoMQ/client/impl"
 	"github.com/dghubble/go-twitter/twitter"
 	log "github.com/sirupsen/logrus"
@@ -28,25 +29,24 @@ func setupLogging(loglevel log.Level, consoleOut bool) {
 }
 
 func main() {
-	err := run()
+	consoleLogging, _ := strconv.ParseBool(os.Getenv("CONSOLELOGGING"))
+	setupLogging(log.DebugLevel, consoleLogging)
+
+	twitterClient := twitterapi.NewTwitterClient(os.Getenv("APIKEY"), os.Getenv("APISECRET"),
+		os.Getenv("ACCESSKEY"), os.Getenv("ACCESSSECRET"))
+	activeMqClient := impl.StompClient{Url: os.Getenv("ENDPOINT")}
+
+	err := run(twitterClient, &activeMqClient)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func run() error {
-	consoleLogging, _ := strconv.ParseBool(os.Getenv("CONSOLELOGGING"))
-	setupLogging(log.DebugLevel, consoleLogging)
-
-	log.Debug("Creating twitter client")
-	twitterClient := twitterapi.NewTwitterClient(os.Getenv("APIKEY"), os.Getenv("APISECRET"), os.Getenv("ACCESSKEY"), os.Getenv("ACCESSSECRET"))
-
+func run(twitterClient twitterapi.TwitterClient, activeMqClient client.Client) error {
 	log.Debug("Creating activeMq client")
-	impl.StompClient{Url: os.Getenv("ENDPOINT")}
-	activeMqClient := impl.NewStompClient()
 	log.Debug("Connecting to activeMQ endpoint")
-	err := activeMqClient.Connect(os.Getenv("ENDPOINT"))
+	err := activeMqClient.Connect()
 
 	if err != nil {
 		log.Error("Could not connect to activeMQ")
