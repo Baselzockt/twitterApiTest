@@ -42,10 +42,10 @@ func TestTweetHandling(t *testing.T) {
 	t.Run("test not connected", func(t *testing.T) {
 		twitterClient := twitterapi.NewTwitterClientMock(createTestData(50))
 		activeMqClient := impl.NewMockClient()
+		activeMqClient.SetErrorOnReconnect(true)
 		err := twitterapi.CreateHandlerForFilterStream(twitterClient, activeMqClient, filterStreamParams)
 		assert.Nil(t, err)
 	})
-
 }
 
 func createTestData(tweetAmount int) []twitter.Tweet {

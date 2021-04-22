@@ -1,5 +1,5 @@
-github.com/Baselzockt/GoMQ v0.0.19-alpha h1:9DhVRdepqRntqUi68xdKISQKzhmeVi3EdrkjRBTrg2E=
-github.com/Baselzockt/GoMQ v0.0.19-alpha/go.mod h1:kUgl9BM/4kzfa7o6vuke4mrJwPT3pD7zMYU2Vb7orPg=
+github.com/Baselzockt/GoMQ v0.0.20-alpha h1:161tvvUyjXw6bjF1nZg3y9GHNuuUqBRhUgxjOVaQvOo=
+github.com/Baselzockt/GoMQ v0.0.20-alpha/go.mod h1:kUgl9BM/4kzfa7o6vuke4mrJwPT3pD7zMYU2Vb7orPg=
 github.com/cenkalti/backoff v2.1.1+incompatible h1:tKJnvO2kl0zmb/jA5UKAt4VoEVw1qxKWjE/Bpp46npY=
 github.com/cenkalti/backoff v2.1.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QHaoyV4aDUVVkXQJJJ3NXXM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

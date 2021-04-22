@@ -48,10 +48,11 @@ func sendMessageToActiveMq(body []byte, client activeMq.Client) {
 	if err != nil {
 		log.Error(err)
 		log.Debug("Error while sending trying to Reconnect")
-
+		test := false
 		switch client.(type) {
 		case *impl.MockClient:
 			err = client.Connect("localhost")
+			test = true
 		default:
 			client = impl.NewStompClient()
 			err = client.Connect("activemq:61613")
@@ -59,7 +60,9 @@ func sendMessageToActiveMq(body []byte, client activeMq.Client) {
 
 		if err != nil {
 			log.Error("Could not reconnect")
-			log.Fatal(err)
+			if !test {
+				log.Fatal(err)
+			}
 		}
 	}
 }
